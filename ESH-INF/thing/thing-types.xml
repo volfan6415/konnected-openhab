@@ -17,14 +17,19 @@
 			<channel id="zone5" typeId="zone" />
 			<channel id="zone6" typeId="zone" />
 		</channels>
-<!--  
+ 
 		<config-description>
-			<parameter name="HOST" type="text" required="true">
-				<label>Sample parameter</label>
-				<description>This is the ip and port of the Konnected Device.</description>
+			<parameter name="Auth_Token" type="text" required="true">
+				<label>Auth_Token</label>
+				<description>This is the Authority Token used to communicate with the Konnected Module.</description>
 			</parameter>
+			<parameter name="Server Port" type="text" required="true">
+                <label>Server_Port</label>
+                <description>This is the port the plugin listens to events from the Connected Module on.</description>
+            </parameter>
 		</config-description>
--->
+		
+		
 	</thing-type>
 
 	<!-- Zone Channel Type -->

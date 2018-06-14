@@ -12,7 +12,7 @@
  */
 package org.openhab.binding.konnected.internal;
 
-import static org.openhab.binding.konnected.internal.KonnectedBindingConstants.Zone_1;
+import static org.openhab.binding.konnected.internal.KonnectedBindingConstants.*;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -61,7 +61,7 @@ public class KonnectedHandler extends BaseThingHandler {
         // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
         // Long running initialization should be done asynchronously in background.
 
-        logger.debug("Url: {}", config.HOST);
+        logger.debug("Url: {}", HOST);
 
         updateStatus(ThingStatus.ONLINE);
 
@@ -72,4 +72,5 @@ public class KonnectedHandler extends BaseThingHandler {
         // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
         // "Can not access device as username and/or password are invalid");
     }
+
 }

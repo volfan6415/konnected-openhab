@@ -22,6 +22,6 @@ public class KonnectedConfiguration {
     /**
      * Sample configuration parameter. Replace with your own.
      */
-    public String config1;
-    public String HOST;
+    public String Auth_Token;
+    public String Server_Port;
 }

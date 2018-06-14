@@ -8,7 +8,14 @@ Bundle-SymbolicName: org.openhab.binding.konnected;singleton:=true
 Bundle-Vendor: openHAB
 Bundle-Version: 2.4.0.qualifier
 Import-Package: 
+ javax.servlet;version="3.1.0",
  org.eclipse.jdt.annotation;resolution:=optional,
+ org.eclipse.jetty.server;version="9.3.22",
+ org.eclipse.jetty.servlet;version="9.3.22",
+ org.eclipse.jetty.websocket.api;version="9.3.22",
+ org.eclipse.jetty.websocket.api.util;version="9.3.22",
+ org.eclipse.jetty.websocket.common.io;version="9.3.22",
+ org.eclipse.jetty.websocket.common.util;version="9.3.22",
  org.eclipse.smarthome.config.core,
  org.eclipse.smarthome.config.xml,
  org.eclipse.smarthome.core.library.types,
@@ -18,6 +25,8 @@ Import-Package:
  org.eclipse.smarthome.core.thing.type,
  org.eclipse.smarthome.core.types,
  org.eclipse.smarthome.core.util,
+ org.eclipse.smarthome.io.net.http,
+ org.eclipse.xtext.ide.server.symbol,
  org.jupnp.model.meta,
  org.slf4j
 Service-Component: OSGI-INF/*.xml

@@ -34,7 +34,6 @@ public class KonnectedBindingConstants {
 
     // Bridge config properties
     public static final String HOST = "ipAddress";
-    public static final String PORT = "port";
     public static final String MAC_ADDR = "macAddress";
-
+    // public static final String Auth_Token = "authToken";
 }
