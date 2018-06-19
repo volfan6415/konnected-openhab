@@ -21,6 +21,7 @@ import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
+import org.openhab.binding.konnected.internal.servelet.KonnectedHTTPServelet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +38,11 @@ public class KonnectedHandler extends BaseThingHandler {
 
     @Nullable
     private KonnectedConfiguration config;
+    private KonnectedHTTPServelet webHookServlet;
 
-    public KonnectedHandler(Thing thing) {
+    public KonnectedHandler(Thing thing, KonnectedHTTPServelet webHookServlet) {
         super(thing);
+        this.webHookServlet = webHookServlet;
     }
 
     @Override
@@ -57,13 +60,17 @@ public class KonnectedHandler extends BaseThingHandler {
     @Override
     public void initialize() {
         config = getConfigAs(KonnectedConfiguration.class);
-
+        updateStatus(ThingStatus.ONLINE);
         // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
         // Long running initialization should be done asynchronously in background.
 
         logger.debug("Url: {}", HOST);
+        logger.debug("Setting up Netatmo Welcome WebHook");
+        webHookServlet.activate(this);
 
-        updateStatus(ThingStatus.ONLINE);
+        // String webHookURI = getWebHookURI();
+
+        // getWelcomeApi().addwebhook(webHookURI, WEBHOOK_APP);
 
         // Note: When initialization can NOT be done set the status with more details for further
         // analysis. See also class ThingStatusDetail for all available status details.
@@ -71,6 +78,16 @@ public class KonnectedHandler extends BaseThingHandler {
         // as expected. E.g.
         // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
         // "Can not access device as username and/or password are invalid");
+    }
+
+    @Override
+    public void dispose() {
+        logger.debug("Running dispose()");
+
+        // if (getWebHookURI() != null) {
+        logger.debug("Releasing Konnected WebHook");
+        webHookServlet.deactivate();
+        // }
     }
 
 }

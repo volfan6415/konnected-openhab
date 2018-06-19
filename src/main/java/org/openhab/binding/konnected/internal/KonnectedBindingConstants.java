@@ -36,4 +36,6 @@ public class KonnectedBindingConstants {
     public static final String HOST = "ipAddress";
     public static final String MAC_ADDR = "macAddress";
     // public static final String Auth_Token = "authToken";
+
+    public static final String WEBHOOK_APP = "app_security";
 }
