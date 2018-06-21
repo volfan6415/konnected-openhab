@@ -32,6 +32,7 @@ import org.eclipse.smarthome.core.thing.binding.ThingHandlerFactory;
 import org.openhab.binding.konnected.internal.servelet.KonnectedHTTPServelet;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.http.HttpService;
 
 /**
@@ -66,9 +67,10 @@ public class KonnectedHandlerFactory extends BaseThingHandlerFactory {
         KonnectedHTTPServelet servlet = null;
 
         servlet = new KonnectedHTTPServelet(httpService, thingUID.getId());
-        webHookServiceRegs.put(thingUID,
-                bundleContext.registerService(HttpServlet.class.getName(), servlet, new Hashtable<String, Object>()));
-
+        if (bundleContext != null) {
+            webHookServiceRegs.put(thingUID, bundleContext.registerService(HttpServlet.class.getName(), servlet,
+                    new Hashtable<String, Object>()));
+        }
         return servlet;
     }
 
@@ -80,6 +82,7 @@ public class KonnectedHandlerFactory extends BaseThingHandlerFactory {
         }
     }
 
+    @Reference
     public void setHttpService(HttpService httpService) {
         this.httpService = httpService;
     }

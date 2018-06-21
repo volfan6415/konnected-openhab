@@ -60,17 +60,15 @@ public class KonnectedHandler extends BaseThingHandler {
     @Override
     public void initialize() {
         config = getConfigAs(KonnectedConfiguration.class);
-        updateStatus(ThingStatus.ONLINE);
+        String Auth_Token = config.Auth_Token;
+
         // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
         // Long running initialization should be done asynchronously in background.
 
         logger.debug("Url: {}", HOST);
-        logger.debug("Setting up Netatmo Welcome WebHook");
+        logger.debug("Setting up Konnected Module WebHook");
         webHookServlet.activate(this);
-
-        // String webHookURI = getWebHookURI();
-
-        // getWelcomeApi().addwebhook(webHookURI, WEBHOOK_APP);
+        updateStatus(ThingStatus.ONLINE);
 
         // Note: When initialization can NOT be done set the status with more details for further
         // analysis. See also class ThingStatusDetail for all available status details.
@@ -88,6 +86,10 @@ public class KonnectedHandler extends BaseThingHandler {
         logger.debug("Releasing Konnected WebHook");
         webHookServlet.deactivate();
         // }
+    }
+
+    private void executePut() {
+
     }
 
 }

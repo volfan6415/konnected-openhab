@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 /**
- * Main OSGi service and HTTP servlet for Netatmo Welcome Webhook.
+ * Main OSGi service and HTTP servlet for Konnected Webhook.
  *
- * @author Gaël L'hopital - Initial contribution
+ * @author Zachary Christiansen - Initial contribution
  */
 public class KonnectedHTTPServelet extends HttpServlet {
     private static final long serialVersionUID = 1288539782077957954L;
@@ -44,7 +44,10 @@ public class KonnectedHTTPServelet extends HttpServlet {
 
     public KonnectedHTTPServelet(HttpService httpService, String id) {
         this.httpService = httpService;
-        this.path = String.format(PATH, id);
+        logger.debug("The id is: {}", id);
+        // this.path = String.format(PATH, id);
+        this.path = PATH;
+        logger.debug("The path is: {}", (this.path));
     }
 
     /**
@@ -54,10 +57,13 @@ public class KonnectedHTTPServelet extends HttpServlet {
      **/
     public void activate(KonnectedHandler bridgeHandler) {
         this.bridgeHandler = bridgeHandler;
+
         try {
+            logger.debug("Trying to Start Webhook. The path is {}", path);
             httpService.registerServlet(path, this, null, httpService.createDefaultHttpContext());
             logger.debug("Started Netatmo Webhook servlet at {}", path);
         } catch (ServletException | NamespaceException e) {
+            logger.debug("Zachary");
             logger.error("Could not start Netatmo Webhook servlet: {}", e.getMessage(), e);
         }
     }
@@ -93,7 +99,7 @@ public class KonnectedHTTPServelet extends HttpServlet {
         response.setCharacterEncoding(CHARSET);
         response.setContentType(APPLICATION_JSON);
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Allow-Methods", "PUT");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     }
