@@ -8,42 +8,33 @@
 	<thing-type id="module">
 		<label>Konnected Binding Thing</label>
 		<description>The Konnected Module</description>
+		
 
 		<channels>
-			<channel id="zone1" typeId="zone" />
-			<channel id="zone2" typeId="zone" />
-			<channel id="zone3" typeId="zone" />
-			<channel id="zone4" typeId="zone" />
-			<channel id="zone5" typeId="zone" />
-			<channel id="zone6" typeId="zone" />
+			<channel id="Zone_1" typeId="zone" />
+			<channel id="Zone_2" typeId="zone" />
+			<channel id="Zone_3" typeId="zone" />
+			<channel id="Zone_4" typeId="zone" />
+			<channel id="Zone_5" typeId="zone" />
+			<channel id="Zone_6" typeId="zone" />
 		</channels>
  
-		<config-description>
-			<parameter name="Auth_Token" type="text" required="true">
-				<label>Auth_Token</label>
-				<description>This is the Authority Token used to communicate with the Konnected Module.</description>
-			</parameter>
-			<parameter name="Server Port" type="text" required="true">
-                <label>Server_Port</label>
-                <description>This is the port the plugin listens to events from the Connected Module on.</description>
-            </parameter>
-		</config-description>
+        <config-description-ref uri="thing-type:konnected:module" />
 		
 		
 	</thing-type>
 
 	<!-- Zone Channel Type -->
 	<channel-type id="zone">
-		<item-type>konnectedItem</item-type>
-		<label>Konnected Binding Channel</label>
-		<description>Sample channel for Konnected Binding</description>
-	   <state readOnly="true">
-    <options>
-        <option value="ON">Zone Triggered</option>
-        <option value="OFF">Zone Dormant</option>
-    </options>
-</state>
-	
+		<item-type>String</item-type>
+		<label>Zones</label>
+		<description>The Zone Channel for adding Sensors</description>
+	    <state readOnly="true">
+            <options>
+                <option value="ON">Zone Triggered</option>
+                <option value="OFF">Zone Dormant</option>
+            </options>
+        </state>
 	</channel-type>
 
 </thing:thing-descriptions>

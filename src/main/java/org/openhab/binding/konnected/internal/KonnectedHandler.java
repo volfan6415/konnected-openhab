@@ -12,7 +12,13 @@
  */
 package org.openhab.binding.konnected.internal;
 
-import static org.openhab.binding.konnected.internal.KonnectedBindingConstants.*;
+import static org.openhab.binding.konnected.internal.KonnectedBindingConstants.Zone_1;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -23,7 +29,7 @@ import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
 import org.openhab.binding.konnected.internal.servelet.KonnectedHTTPServelet;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;;
 
 /**
  * The {@link KonnectedHandler} is responsible for handling commands, which are
@@ -39,10 +45,17 @@ public class KonnectedHandler extends BaseThingHandler {
     @Nullable
     private KonnectedConfiguration config;
     private KonnectedHTTPServelet webHookServlet;
+    private KonnectedHTTPUtils HTTPUtils;
+    private List<String> sensors;
+    private List<String> actuators;
 
     public KonnectedHandler(Thing thing, KonnectedHTTPServelet webHookServlet) {
         super(thing);
         this.webHookServlet = webHookServlet;
+        this.HTTPUtils = new KonnectedHTTPUtils();
+        this.sensors = new LinkedList<String>();
+        this.actuators = new LinkedList<String>();
+
     }
 
     @Override
@@ -59,13 +72,12 @@ public class KonnectedHandler extends BaseThingHandler {
 
     @Override
     public void initialize() {
-        config = getConfigAs(KonnectedConfiguration.class);
-        String Auth_Token = config.Auth_Token;
-
         // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
         // Long running initialization should be done asynchronously in background.
-
-        logger.debug("Url: {}", HOST);
+        config = getConfigAs(KonnectedConfiguration.class);
+        Map<String, String> properties = this.thing.getProperties();
+        String Host = properties.get("ipAddress");
+        logger.debug("The Thing configurations are : {}", this.thing.getConfiguration().toString());
         logger.debug("Setting up Konnected Module WebHook");
         webHookServlet.activate(this);
         updateStatus(ThingStatus.ONLINE);
@@ -88,7 +100,65 @@ public class KonnectedHandler extends BaseThingHandler {
         // }
     }
 
-    private void executePut() {
+    @Override
+    public void channelLinked(ChannelUID channel) {
+        logger.debug("Channel {} has been linked", channel.getId());
+        sensors.add("{\"pin\":" + channel.getId().substring((channel.getId().length() - 1)) + "}");
+        logger.debug(sensors.toString());
+
+    }
+
+    @Override
+    public void channelUnlinked(ChannelUID channel) {
+        logger.debug("Channel {} has been unlinked", channel.toString());
+        sensors.remove("{\"pin\":" + channel.getId().substring((channel.getId().length() - 1)) + "}");
+        logger.debug(sensors.toString());
+
+    }
+
+    private String contructSettingsPayload() {
+        String hostPath = "";
+        try {
+            hostPath = getHostName() + webHookServlet.getPath();
+            logger.debug("The host path is: {}", hostPath);
+        }
+
+        catch (UnknownHostException e) {
+            logger.debug("Unable to obtain hostname: {}", e);
+            return "none";
+
+        }
+
+        String authToken = config.Auth_Token;
+        logger.debug("The Auth_Token is: {}", authToken);
+        logger.debug("The Sensor String is: {}", sensors.toString());
+        logger.debug("The Actuator String is: {}", actuators.toString());
+        String payload = "{\"sensors\":" + sensors.toString() + ",\"actuators\": " + actuators.toString() + ",\"token: "
+                + authToken + ",\"apiUrl\": \"http://" + hostPath + "\"}";
+        logger.debug("The payload is: {}", payload);
+        return payload;
+    }
+
+    protected String getHostName() throws UnknownHostException {
+        // returns the local address of the openHAB server
+        InetAddress addr = InetAddress.getLocalHost();
+        String hostname = addr.getHostAddress() + ":8080";
+        return hostname;
+    }
+
+    private void updateKonnectedModule() {
+        Map<String, String> properties = this.thing.getProperties();
+        String Host = properties.get("ipAddress");
+        logger.debug("The Thing configurations are : {}", this.thing.getConfiguration().toString());
+        logger.debug("The ip address of the put request is : {}", Host + "/settings");
+        try {
+
+            String payload = contructSettingsPayload();
+            int response = HTTPUtils.doPut(Host + "/settings", payload);
+            logger.debug("The response of the Put request is : {}", response);
+        } catch (Exception e) {
+            logger.debug("The put request encountered and exception: {}", e);
+        }
 
     }
 

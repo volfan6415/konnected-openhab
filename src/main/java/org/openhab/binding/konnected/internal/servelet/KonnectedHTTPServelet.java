@@ -44,10 +44,7 @@ public class KonnectedHTTPServelet extends HttpServlet {
 
     public KonnectedHTTPServelet(HttpService httpService, String id) {
         this.httpService = httpService;
-        logger.debug("The id is: {}", id);
-        // this.path = String.format(PATH, id);
-        this.path = PATH;
-        logger.debug("The path is: {}", (this.path));
+        this.path = PATH + "/" + id;
     }
 
     /**
@@ -59,11 +56,10 @@ public class KonnectedHTTPServelet extends HttpServlet {
         this.bridgeHandler = bridgeHandler;
 
         try {
-            logger.debug("Trying to Start Webhook. The path is {}", path);
+            logger.debug("Trying to Start Webhook.");
             httpService.registerServlet(path, this, null, httpService.createDefaultHttpContext());
-            logger.debug("Started Netatmo Webhook servlet at {}", path);
+            logger.debug("Started Konnected Webhook servlet at {}", path);
         } catch (ServletException | NamespaceException e) {
-            logger.debug("Zachary");
             logger.error("Could not start Netatmo Webhook servlet: {}", e.getMessage(), e);
         }
     }
@@ -73,7 +69,7 @@ public class KonnectedHTTPServelet extends HttpServlet {
      */
     public void deactivate() {
         httpService.unregister(path);
-        logger.debug("Netatmo webhook servlet stopped");
+        logger.debug("Konnected webhook servlet stopped");
         this.bridgeHandler = null;
     }
 

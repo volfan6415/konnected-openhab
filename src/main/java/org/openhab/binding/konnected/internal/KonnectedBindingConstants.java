@@ -31,10 +31,16 @@ public class KonnectedBindingConstants {
 
     // List of all Channel ids
     public static final String Zone_1 = "zone1";
+    public static final String Zone_2 = "zone2";
+    public static final String Zone_3 = "zone3";
+    public static final String Zone_4 = "zone4";
+    public static final String Zone_5 = "zone5";
+    public static final String Zone_6 = "zone6";
 
     // Bridge config properties
     public static final String HOST = "ipAddress";
     public static final String MAC_ADDR = "macAddress";
+
     // public static final String Auth_Token = "authToken";
 
     public static final String WEBHOOK_APP = "app_security";
