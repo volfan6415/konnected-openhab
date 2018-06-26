@@ -68,7 +68,12 @@ public class KonnectedPutSettingsTimer {
                 logger.debug("The put request encountered and exception: {}", e);
             }
             timer.cancel(); // Terminate the timer thread
-            handler.initializeChannelStates();
+            try {
+                logger.debug("Pausing for one min to allow konnected module to reboot.");
+                TimeUnit.MINUTES.sleep(1);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
 
         }
     }

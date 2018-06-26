@@ -12,11 +12,11 @@
  */
 package org.openhab.binding.konnected.internal;
 
-import static org.openhab.binding.konnected.internal.KonnectedBindingConstants.Zone_1;
+import static org.openhab.binding.konnected.internal.KonnectedBindingConstants.*;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +30,8 @@ import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
 import org.openhab.binding.konnected.internal.servelet.KonnectedHTTPServelet;
-import org.openhab.binding.konnected.internal.servelet.KonnectedModuleEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
 
 /**
  * The {@link KonnectedHandler} is responsible for handling commands, which are
@@ -53,6 +50,7 @@ public class KonnectedHandler extends BaseThingHandler {
     private KonnectedPutSettingsTimer putSettingsTimer;
     private List<String> sensors;
     private List<String> actuators;
+    KonnectedHTTPUtils http;
 
     public KonnectedHandler(Thing thing, KonnectedHTTPServelet webHookServlet) {
         super(thing);
@@ -60,6 +58,7 @@ public class KonnectedHandler extends BaseThingHandler {
         this.putSettingsTimer = new KonnectedPutSettingsTimer();
         this.sensors = new LinkedList<String>();
         this.actuators = new LinkedList<String>();
+        http = new KonnectedHTTPUtils();
 
     }
 
@@ -76,35 +75,13 @@ public class KonnectedHandler extends BaseThingHandler {
     }
 
     public void handleWebHookEvent(String pin, String State) {
+        // convert pin to zone based on array
 
-        String channelid = "Zone_" + pin;
+        // get the zone number based off of the index location of the pin value
+        String channelid = "Zone_" + Integer.toString(Arrays.asList(PIN_TO_ZONE).indexOf(Integer.parseInt(pin)));
         logger.debug("The channelid of the event is: {}", channelid);
         StringType channelstate = new StringType(State);
         updateState(channelid, channelstate);
-
-    }
-
-    public void initializeChannelStates() {
-
-        this.sensors.forEach(item -> {
-            Map<String, String> properties = this.thing.getProperties();
-            String Host = properties.get("ipAddress");
-            // seting it up to wait 30 seconds before sending the put request
-            KonnectedHTTPUtils http = new KonnectedHTTPUtils();
-            try {
-                String data = http.doGet(Host + "/device", item);
-                Gson gson = new Gson();
-                KonnectedModuleEvent event = gson.fromJson(data, KonnectedModuleEvent.class);
-                handleWebHookEvent(event.getPin(), event.getState());
-            }
-
-            catch (IOException e) {
-                logger.debug("Getting the state of the pin failed: {}", e);
-
-            }
-            logger.debug("The Sensor String is: {}", item);
-
-        });
 
     }
 
@@ -113,9 +90,8 @@ public class KonnectedHandler extends BaseThingHandler {
         // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
         // Long running initialization should be done asynchronously in background.
         config = getConfigAs(KonnectedConfiguration.class);
-        Map<String, String> properties = this.thing.getProperties();
-        String Host = properties.get("ipAddress");
-        logger.debug("The Thing configurations are : {}", this.thing.getConfiguration().toString());
+        // Map<String, String> properties = this.thing.getProperties();
+        // String Host = properties.get("ipAddress");
         logger.debug("Setting up Konnected Module WebHook");
         webHookServlet.activate(this);
         updateStatus(ThingStatus.ONLINE);
@@ -131,7 +107,6 @@ public class KonnectedHandler extends BaseThingHandler {
     @Override
     public void dispose() {
         logger.debug("Running dispose()");
-
         // if (getWebHookURI() != null) {
         logger.debug("Releasing Konnected WebHook");
         webHookServlet.deactivate();
@@ -143,7 +118,12 @@ public class KonnectedHandler extends BaseThingHandler {
         // adds linked channels to list based on last value of Channel ID
         // which is set to a number
         logger.debug("Channel {} has been linked", channel.getId());
-        sensors.add("{\"pin\":" + channel.getId().substring((channel.getId().length() - 1)) + "}");
+
+        // get the zone number in integer form
+        Integer pin = Integer.parseInt(channel.getId().substring((channel.getId().length() - 1)));
+        // convert the zone to the pin based on value at index of zone
+        pin = Arrays.asList(PIN_TO_ZONE).get(pin);
+        sensors.add("{\"pin\":" + Integer.toString(pin) + "}");
         logger.debug(sensors.toString());
         updateKonnectedModule();
 
@@ -152,7 +132,11 @@ public class KonnectedHandler extends BaseThingHandler {
     @Override
     public synchronized void channelUnlinked(ChannelUID channel) {
         logger.debug("Channel {} has been unlinked", channel.toString());
-        sensors.remove("{\"pin\":" + channel.getId().substring((channel.getId().length() - 1)) + "}");
+        // get the zone number in integer form
+        Integer pin = Integer.parseInt(channel.getId().substring((channel.getId().length() - 1)));
+        // convert the zone to the pin based on value at index of zone
+        pin = Arrays.asList(PIN_TO_ZONE).get(pin);
+        sensors.remove("{\"pin\":" + Integer.toString(pin) + "}");
         logger.debug(sensors.toString());
         updateKonnectedModule();
 

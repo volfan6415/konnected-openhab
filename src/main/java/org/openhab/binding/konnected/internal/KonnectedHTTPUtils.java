@@ -41,11 +41,9 @@ public class KonnectedHTTPUtils {
         return httpHeaders;
     }
 
-    public String doGet(String urlAddress, String payload) throws IOException {
+    public synchronized String doGet(String urlAddress) throws IOException {
         logger.debug("The String url we want to get is : {}", urlAddress);
-        ByteArrayInputStream input = new ByteArrayInputStream(payload.getBytes(StandardCharsets.UTF_8));
-        String test = HttpUtil.executeUrl("PUT", urlAddress, getHttpHeaders(), input, "application/json",
-                this.REQUEST_TIMEOUT);
+        String test = HttpUtil.executeUrl("GET", urlAddress, this.REQUEST_TIMEOUT);
         logger.debug(test);
         return test;
     }

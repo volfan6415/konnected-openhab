@@ -9,7 +9,7 @@
  * http://www.eclipse.org/legal/epl-2.0
  *
  * SPDX-License-Identifier: EPL-2.0
- */
+ **/
 package org.openhab.binding.konnected.internal;
 
 import static org.openhab.binding.konnected.internal.KonnectedBindingConstants.THING_TYPE_MODULE;

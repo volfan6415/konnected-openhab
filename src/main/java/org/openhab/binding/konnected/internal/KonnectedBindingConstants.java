@@ -41,6 +41,10 @@ public class KonnectedBindingConstants {
     public static final String HOST = "ipAddress";
     public static final String MAC_ADDR = "macAddress";
 
+    // PIN_TO_ZONE array, this array maps an index location as a zone to the corresponding
+    // pin location
+    public static final Integer[] PIN_TO_ZONE = { 0, 1, 2, 5, 6, 7, 9 };
+
     // public static final String Auth_Token = "authToken";
 
     public static final String WEBHOOK_APP = "app_security";
