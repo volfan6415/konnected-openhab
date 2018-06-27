@@ -23,4 +23,5 @@ public class KonnectedConfiguration {
      * Sample configuration parameter. Replace with your own.
      */
     public String Auth_Token;
+
 }

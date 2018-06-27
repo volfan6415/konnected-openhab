@@ -24,6 +24,7 @@ import java.util.Map;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.StringType;
+import org.eclipse.smarthome.core.thing.Channel;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -117,8 +118,16 @@ public class KonnectedHandler extends BaseThingHandler {
     public synchronized void channelLinked(ChannelUID channel) {
         // adds linked channels to list based on last value of Channel ID
         // which is set to a number
-        logger.debug("Channel {} has been linked", channel.getId());
+        Channel current = thing.getChannel(channel.getAsString());
+        // logger.debug("The current properties are : {} ", current.getProperties().toString());
 
+        if (current.getConfiguration().toString() != null) {
+            logger.debug("The current configurations are: {}", current.getConfiguration().toString());
+        } else {
+            logger.debug("The configuration was null");
+        }
+
+        logger.debug("Channel {} has been linked", channel.getId());
         // get the zone number in integer form
         Integer pin = Integer.parseInt(channel.getId().substring((channel.getId().length() - 1)));
         // convert the zone to the pin based on value at index of zone
