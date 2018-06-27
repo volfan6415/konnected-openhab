@@ -30,12 +30,12 @@ public class KonnectedBindingConstants {
     public static final ThingTypeUID THING_TYPE_MODULE = new ThingTypeUID(BINDING_ID, "module");
 
     // List of all Channel ids
-    public static final String Zone_1 = "zone1";
-    public static final String Zone_2 = "zone2";
-    public static final String Zone_3 = "zone3";
-    public static final String Zone_4 = "zone4";
-    public static final String Zone_5 = "zone5";
-    public static final String Zone_6 = "zone6";
+    public static final String Zone_1 = "Zone_1";
+    public static final String Zone_2 = "Zone_2";
+    public static final String Zone_3 = "Zone_3";
+    public static final String Zone_4 = "Zone_4";
+    public static final String Zone_5 = "Zone_5";
+    public static final String Zone_6 = "Zone_6";
 
     // Bridge config properties
     public static final String HOST = "ipAddress";

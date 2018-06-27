@@ -28,6 +28,6 @@
             <label>Pin 6</label>
             </channel>
 		</channels>
-        <config-description-ref uri="thing-type:konnected:module" />
+        <config-description-ref uri="thing-type:konnected:module"/>
 	</thing-type>
 </thing:thing-descriptions>

@@ -41,9 +41,9 @@ import org.osgi.service.http.HttpService;
  *
  * @author Zachary Christiansen - Initial contribution
  */
-// @Component(configurationPid = "binding.konnected", service = ThingHandlerFactory.class)
-@Component(service = { ThingHandlerFactory.class,
-        KonnectedHandlerFactory.class }, immediate = true, configurationPid = "binding.konnected")
+//@Component(configurationPid = "binding.konnected", service = ThingHandlerFactory.class)
+ @Component(service = { ThingHandlerFactory.class,
+ KonnectedHandlerFactory.class }, immediate = true, configurationPid = "binding.konnected")
 
 public class KonnectedHandlerFactory extends BaseThingHandlerFactory {
 

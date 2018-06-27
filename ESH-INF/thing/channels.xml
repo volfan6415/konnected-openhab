@@ -10,6 +10,6 @@
         <item-type>String</item-type>
         <label>Pin</label>
         <description>The Zone Channel for adding Sensors</description>
-        <config-description-ref uri="channel-type:konnected:zone" />
+       <config-description-ref uri="channel-type:konnected:zone" />
     </channel-type>
     </thing:thing-descriptions>
