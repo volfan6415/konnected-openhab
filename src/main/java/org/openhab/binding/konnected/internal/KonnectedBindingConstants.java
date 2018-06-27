@@ -43,7 +43,7 @@ public class KonnectedBindingConstants {
 
     // PIN_TO_ZONE array, this array maps an index location as a zone to the corresponding
     // pin location
-    public static final Integer[] PIN_TO_ZONE = { 0, 1, 2, 5, 6, 7, 9 };
+    public static final Integer[] PIN_TO_ZONE = { 0, 1, 2, 5, 6, 7, 9, 8 };
 
     // public static final String Auth_Token = "authToken";
 

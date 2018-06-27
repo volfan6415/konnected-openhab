@@ -50,6 +50,7 @@ public class KonnectedHandlerFactory extends BaseThingHandlerFactory {
     private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections.singleton(THING_TYPE_MODULE);
     private Map<ThingUID, ServiceRegistration<?>> webHookServiceRegs = new HashMap<>();
     private HttpService httpService;
+    private KonnectedDynamicStateDescriptionProvider dynamicStateDescriptionProvider;
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -59,7 +60,7 @@ public class KonnectedHandlerFactory extends BaseThingHandlerFactory {
     @Override
     protected @Nullable ThingHandler createHandler(Thing thing) {
         KonnectedHTTPServelet servlet = registerWebHookServlet(thing.getUID());
-        return new KonnectedHandler(thing, servlet);
+        return new KonnectedHandler(thing, servlet, dynamicStateDescriptionProvider);
 
     }
 
@@ -89,6 +90,15 @@ public class KonnectedHandlerFactory extends BaseThingHandlerFactory {
 
     public void unsetHttpService(HttpService httpService) {
         this.httpService = null;
+    }
+
+    @Reference
+    protected void setDynamicStateDescriptionProvider(KonnectedDynamicStateDescriptionProvider provider) {
+        this.dynamicStateDescriptionProvider = provider;
+    }
+
+    protected void unsetDynamicStateDescriptionProvider(KonnectedDynamicStateDescriptionProvider provider) {
+        this.dynamicStateDescriptionProvider = null;
     }
 
 }

@@ -24,4 +24,11 @@ public class KonnectedConfiguration {
      */
     public String Auth_Token;
 
+
+    public boolean isAct1;
+    public boolean isAct2;
+    public boolean isAct3;
+    public boolean isAct4;
+    public boolean isAct5;
+
 }
