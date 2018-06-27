@@ -3,13 +3,11 @@
     xmlns:config-description="http://eclipse.org/smarthome/schemas/config-description/v1.0.0"
     xsi:schemaLocation="http://eclipse.org/smarthome/schemas/config-description/v1.0.0
         http://eclipse.org/smarthome/schemas/config-description-1.0.0.xsd">
-
 <config-description uri="thing-type:konnected:module">
             <parameter name="Auth_Token" type="text" required="true">
                 <label>Auth_Token</label>
                 <description>This is the Authority Token used to communicate with the Konnected Module.</description>
-            </parameter>
-            
+  </parameter>
             
             <parameter name="isAct1" type="boolean" required="false" groupName="Actuators">
                 <label>Pin 1</label>
@@ -41,6 +39,5 @@
                 <default>false</default>
             </parameter>
             
-        </config-description>
-        
+        </config-description> 
  </config-description:config-descriptions>

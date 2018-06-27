@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="konnected"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+    xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 org.eclipse.smarthome.thing-description.xsd">
+   
+   
+    <!-- Zone Channel Type -->
+    <channel-type id="zone">
+        <item-type>String</item-type>
+        <label>Pin</label>
+        <description>The Zone Channel for adding Sensors</description>
+       <config-description-ref uri="channel-type:konnected:zone" />
+    </channel-type>
+    </thing:thing-descriptions>

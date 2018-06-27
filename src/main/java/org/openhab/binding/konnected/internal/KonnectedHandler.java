@@ -26,6 +26,7 @@ import java.util.Map;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.StringType;
+import org.eclipse.smarthome.core.thing.Channel;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -179,8 +180,10 @@ public class KonnectedHandler extends BaseThingHandler {
     public synchronized void channelLinked(ChannelUID channel) {
         // adds linked channels to list based on last value of Channel ID
         // which is set to a number
+
         logger.debug("Channel {} has been linked", channel.getId());
         setisAct();
+
         // get the zone number in integer form
         Integer zone = Integer.parseInt(channel.getId().substring((channel.getId().length() - 1)));
 

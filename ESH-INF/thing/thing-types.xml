@@ -8,8 +8,6 @@
 	<thing-type id="module">
 		<label>Konnected Binding Thing</label>
 		<description>The Konnected Module</description>
-		
-
 		<channels>
             <channel id="Zone_1" typeId="zone">
             <label>Pin 1</label>
@@ -51,4 +49,8 @@
             <description>The Out Pin</description>
          </channel-type>
 
+            </channel>
+		</channels>
+        <config-description-ref uri="thing-type:konnected:module"/>
+	</thing-type>
 </thing:thing-descriptions>
