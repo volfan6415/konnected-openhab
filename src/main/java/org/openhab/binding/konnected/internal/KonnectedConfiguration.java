@@ -23,4 +23,10 @@ public class KonnectedConfiguration {
      * Sample configuration parameter. Replace with your own.
      */
     public String Auth_Token;
+
+    public boolean isAct1;
+    public boolean isAct2;
+    public boolean isAct3;
+    public boolean isAct4;
+    public boolean isAct5;
 }
